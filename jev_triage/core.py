@@ -140,12 +140,11 @@ class Triage:
                 elif "score" in ans:
                     extra[key] = ans["score"]
 
-        # Normalize noul fields (Jev may return float directly or nested)
         def _prob(ans: Any) -> float:
             if isinstance(ans, (int, float)):
                 return float(ans)
             if isinstance(ans, dict):
-                return float(ans.get("probability", 0))
+                return float(ans.get("noul", ans.get("probability", 0)))
             return 0.0
 
         tag = answers.get("tags", {}).get("choice", "other")
